@@ -65,4 +65,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.products = products;
       });
   }
+
+  onShowNElements(value: any): void {
+    console.log(value.target.value);
+    if (!isNaN(Number(value.target.value))) {
+      this.products = [...this._initialProducts].slice(
+        0,
+        Number(value.target.value)
+      );
+    } else {
+      this.products = [...this._initialProducts];
+    }
+  }
 }

@@ -1,1 +1,33 @@
-<p>products works!</p>
+<div>
+  <input type="text" placeholder="Search" />
+  <button>Agregar</button>
+</div>
+
+<table>
+  <caption>
+    Listado de productos
+  </caption>
+  <tr>
+    <th>Logo</th>
+    <th>Nombre del producto</th>
+    <th>Descripción</th>
+    <th>Fecha de liberación</th>
+    <th>Fecha de reestructuración</th>
+  </tr>
+  <tr *ngFor="let product of products">
+    <td><img [src]="product.logo" alt="Logo" width="30" height="30" /></td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.date_release }}</td>
+    <td>{{ product.date_revision }}</td>
+  </tr>
+</table>
+
+<div>
+  <span>{{ products.length }}</span>
+  <select name="select">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+</div>

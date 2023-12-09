@@ -1,5 +1,9 @@
 <div>
-  <input type="text" placeholder="Search" />
+  <input
+    type="text"
+    placeholder="Search by name"
+    [formControl]="searchByNameControl"
+  />
   <button routerLink="/products/product">Agregar</button>
 </div>
 

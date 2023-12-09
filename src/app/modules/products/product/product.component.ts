@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/shared/models/product.mode';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ProductValidator } from '../../../shared/validators/validator';
@@ -10,7 +11,9 @@ import { ProductValidator } from '../../../shared/validators/validator';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
+  private takeUntil$ = new Subject<boolean>();
+
   productForm: FormGroup;
 
   constructor(
@@ -50,6 +53,11 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.takeUntil$.next(false);
+    this.takeUntil$.complete();
+  }
+
   ngOnInit(): void {}
 
   get id() {
@@ -87,14 +95,17 @@ export class ProductComponent implements OnInit {
 
     console.log(this.productForm.value);
 
-    this._productsService.createProduct(this.productForm.value).subscribe({
-      next: (product: Product) => {
-        console.log(product);
-        this._router.navigate(['/products']);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this._productsService
+      .createProduct(this.productForm.value)
+      .pipe(takeUntil(this.takeUntil$))
+      .subscribe({
+        next: (product: Product) => {
+          console.log(product);
+          this._router.navigate(['/products']);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }

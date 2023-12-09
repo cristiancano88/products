@@ -1,0 +1,132 @@
+<p>Formulario de Registro</p>
+
+<hr />
+
+<form [formGroup]="productForm" (ngSubmit)="onCreateProduct()">
+  <div>
+    <div class="form-group">
+      <label for="id">ID</label>
+      <input
+        type="text"
+        class="form-control"
+        id="id"
+        formControlName="id"
+        minlength="3"
+        maxlength="10"
+        required
+      />
+      <div
+        *ngIf="id?.invalid && (id?.dirty || id?.touched)"
+        [ngClass]="'error'"
+      >
+        <div *ngIf="id?.errors?.['idExists']">ID en uso</div>
+        <div *ngIf="!id?.errors?.['idExists']">ID no válido</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+        minlength="5"
+        maxlength="100"
+        required
+      />
+      <div
+        *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+        [ngClass]="'error'"
+      >
+        Nombre no válido
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        formControlName="description"
+        minlength="10"
+        maxlength="200"
+        required
+      />
+      <div
+        *ngIf="
+          description?.invalid && (description?.dirty || description?.touched)
+        "
+        [ngClass]="'error'"
+      >
+        Descripción no válida
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="logo">Logo</label>
+      <input
+        type="text"
+        class="form-control"
+        id="logo"
+        formControlName="logo"
+        required
+      />
+      <div
+        *ngIf="logo?.invalid && (logo?.dirty || logo?.touched)"
+        [ngClass]="'error'"
+      >
+        Logo no válido
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="form-group">
+      <label for="date_release">Fecha Liberación</label>
+      <input
+        type="text"
+        class="form-control"
+        id="date_release"
+        formControlName="date_release"
+        required
+      />
+      <div
+        *ngIf="
+          dateRelease?.invalid && (dateRelease?.dirty || dateRelease?.touched)
+        "
+        [ngClass]="'error'"
+      >
+        Fecha Liberación no válida
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="date_revision">Fecha Revisión</label>
+      <input
+        type="text"
+        class="form-control"
+        id="date_revision"
+        formControlName="date_revision"
+        required
+      />
+      <div
+        *ngIf="
+          dateRevision?.invalid &&
+          (dateRevision?.dirty || dateRevision?.touched)
+        "
+        [ngClass]="'error'"
+      >
+        Fecha Revisión no válida
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <button (click)="resetForm()">Reiniciar</button>
+    <button type="submit" [disabled]="productForm.invalid">Enviar</button>
+  </div>
+</form>

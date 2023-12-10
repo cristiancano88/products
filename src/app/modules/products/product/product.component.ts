@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { MAX_LENGTH_ID, MIN_LENGTH_ID } from 'src/app/shared/constants/lengths';
 import { Product } from 'src/app/shared/models/product.mode';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ProductValidator } from '../../../shared/validators/validator';
@@ -26,8 +27,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         null,
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(10),
+          Validators.minLength(MIN_LENGTH_ID),
+          Validators.maxLength(MAX_LENGTH_ID),
         ],
         [ProductValidator.idValidator(this._productsService)],
       ],

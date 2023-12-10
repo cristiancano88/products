@@ -1,38 +1,53 @@
-<div>
-  <input
-    type="text"
-    placeholder="Search by name"
-    [formControl]="searchByNameControl"
-  />
-  <button routerLink="/products/product">Agregar</button>
-</div>
+<div class="wrapper">
+  <div class="grid grid-between align-items-center">
+    <div class="col">
+      <input
+        type="text"
+        placeholder="Search by name"
+        [formControl]="searchByNameControl"
+      />
+    </div>
+    <div class="col">
+      <button routerLink="/products/product">Agregar</button>
+    </div>
+  </div>
 
-<table>
-  <caption>
-    Listado de productos
-  </caption>
-  <tr>
-    <th>Logo</th>
-    <th>Nombre del producto</th>
-    <th>Descripción</th>
-    <th>Fecha de liberación</th>
-    <th>Fecha de reestructuración</th>
-  </tr>
-  <tr *ngFor="let product of products">
-    <td><img [src]="product.logo" alt="Logo" width="30" height="30" /></td>
-    <td>{{ product.name }}</td>
-    <td>{{ product.description }}</td>
-    <td>{{ product.date_release }}</td>
-    <td>{{ product.date_revision }}</td>
-  </tr>
-</table>
+  <table>
+    <caption>
+      Listado de productos
+    </caption>
+    <tr>
+      <th class="logo">Logo</th>
+      <th>Nombre del producto</th>
+      <th>Descripción</th>
+      <th>Fecha de liberación</th>
+      <th>Fecha de reestructuración</th>
+    </tr>
+    <tr *ngFor="let product of products">
+      <td class="logo">
+        <img [src]="product.logo" alt="Logo" width="30" height="30" />
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.date_release | date : "dd/LL/yyyy" }}</td>
+      <td>{{ product.date_revision | date : "dd/LL/yyyy" }}</td>
+    </tr>
+  </table>
 
-<div>
-  <span>{{ products.length }}</span>
-  <select name="select" (change)="onShowNElements($event)">
-    <option default>Seleccionar</option>
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-  </select>
+  <div class="grid grid-between align-items-center">
+    <div class="col">
+      <span>{{ products.length }} Resultados</span>
+    </div>
+    <div class="col">
+      <select
+        name="select"
+        (change)="onShowElementsBySelectedAmount()"
+        [(ngModel)]="selectedAmount"
+      >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
 </div>

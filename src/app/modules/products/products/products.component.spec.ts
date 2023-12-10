@@ -4,7 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { productMock } from './../../../../test/services/mocks/product.mock';
 import { productsServiceMock } from './../../../../test/services/products.service.mock';
 import { ProductsService } from './../../../shared/services/products.service';
@@ -17,7 +17,7 @@ describe('ProductsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ProductsComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, FormsModule],
       providers: [{ provide: ProductsService, useValue: productsServiceMock }],
     }).compileComponents();
 
@@ -57,6 +57,7 @@ describe('ProductsComponent', () => {
   });
 
   it('should search products by criteria of name', fakeAsync(() => {
+    jest.spyOn<any, string>(component, 'onShowElementsBySelectedAmount');
     component['_initialProducts'] = [
       { ...productMock, name: 'aaa' },
       { ...productMock, name: 'bbb' },
@@ -71,6 +72,7 @@ describe('ProductsComponent', () => {
 
     expect(component.products.length).toBe(1);
     expect(component.products[0].name).toBe('aaa');
+    expect(component.onShowElementsBySelectedAmount).toHaveBeenCalled();
   }));
 
   it('should get products from the service', () => {
@@ -78,27 +80,15 @@ describe('ProductsComponent', () => {
 
     expect(component['_productsService'].getProducts).toHaveBeenCalled();
     expect(component['_initialProducts'].length).toBe(1);
-    expect(component.products.length).toBe(1);
-    expect(component.products[0]).toEqual(productMock);
   });
 
-  describe('#onShowNElements', () => {
-    it('should show N elements of products', () => {
-      component['_initialProducts'] = [productMock, productMock, productMock];
-      component.products = [...component['_initialProducts']];
-      component.onShowNElements({ target: { value: 1 } });
+  it('should show N elements of products', () => {
+    component['_initialProducts'] = [productMock, productMock, productMock];
+    component.products = [...component['_initialProducts']];
+    component.selectedAmount = 1;
+    component.onShowElementsBySelectedAmount();
 
-      expect(component.products.length).toBe(1);
-      expect(component['_initialProducts'].length).toBe(3);
-    });
-
-    it('should show N elements of products', () => {
-      component['_initialProducts'] = [productMock, productMock, productMock];
-      component.products = [...component['_initialProducts']];
-      component.onShowNElements({ target: { value: undefined } });
-
-      expect(component.products.length).toBe(3);
-      expect(component['_initialProducts'].length).toBe(3);
-    });
+    expect(component.products.length).toBe(1);
+    expect(component['_initialProducts'].length).toBe(3);
   });
 });

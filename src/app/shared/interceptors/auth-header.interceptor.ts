@@ -17,7 +17,7 @@ export class AuthHeaderInterceptor implements HttpInterceptor {
     const authReq = request.clone({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        authorId: '100',
+        authorId: '500',
       }),
     });
 

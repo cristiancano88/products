@@ -24,6 +24,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   searchByNameControl = new FormControl('');
 
+  selectedAmount: number = 5;
+
   constructor(private _productsService: ProductsService) {}
 
   ngOnDestroy() {
@@ -53,6 +55,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
               .toLowerCase()
               .indexOf(criteria.toLowerCase()) !== -1
         );
+        this.onShowElementsBySelectedAmount(this.products);
       });
   }
 
@@ -62,18 +65,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._takeUntil$))
       .subscribe((products: Product[]) => {
         this._initialProducts = products;
-        this.products = products;
       });
   }
 
-  onShowNElements(value: any): void {
-    if (!isNaN(Number(value.target.value))) {
-      this.products = [...this._initialProducts].slice(
-        0,
-        Number(value.target.value)
-      );
-    } else {
-      this.products = [...this._initialProducts];
-    }
+  onShowElementsBySelectedAmount(products?: Product[]): void {
+    const items = products ?? [...this._initialProducts];
+    this.products = [...items].slice(0, Number(this.selectedAmount));
   }
 }

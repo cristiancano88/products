@@ -6,5 +6,5 @@ export const productsServiceMock = {
 
   createProduct: jest.fn().mockReturnValue(of(productMock)),
 
-  idVerification: jest.fn().mockReturnValue(of(true)),
+  idVerification: jest.fn().mockReturnValue(of(false)),
 };

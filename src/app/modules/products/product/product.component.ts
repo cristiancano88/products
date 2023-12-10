@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { MAX_LENGTH_ID, MIN_LENGTH_ID } from 'src/app/shared/constants/lengths';
-import { Product } from 'src/app/shared/models/product.mode';
-import { ProductsService } from 'src/app/shared/services/products.service';
 import { ProductValidator } from '../../../shared/validators/validator';
+import {
+  MAX_LENGTH_ID,
+  MIN_LENGTH_ID,
+} from './../../../shared/constants/lengths';
+import { Product } from './../../../shared/models/product.mode';
+import { ProductsService } from './../../../shared/services/products.service';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit, OnDestroy {
-  private takeUntil$ = new Subject<boolean>();
+export class ProductComponent implements OnDestroy {
+  private _takeUntil$ = new Subject<boolean>();
 
   productForm: FormGroup;
 
@@ -55,11 +58,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.takeUntil$.next(false);
-    this.takeUntil$.complete();
+    this._takeUntil$.next(false);
+    this._takeUntil$.complete();
   }
-
-  ngOnInit(): void {}
 
   get id() {
     return this.productForm.get('id');
@@ -96,14 +97,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     this._productsService
       .createProduct(this.productForm.value)
-      .pipe(takeUntil(this.takeUntil$))
-      .subscribe({
-        next: (product: Product) => {
-          this._router.navigate(['/products']);
-        },
-        error: (error) => {
-          console.error(error);
-        },
+      .pipe(takeUntil(this._takeUntil$))
+      .subscribe((product: Product) => {
+        this._router.navigate(['/products']);
       });
   }
 }

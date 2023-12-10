@@ -9,7 +9,6 @@
         <label for="id">ID</label>
         <input
           type="text"
-          class="form-control"
           id="id"
           formControlName="id"
           minlength="3"
@@ -34,7 +33,6 @@
         <label for="name">Nombre</label>
         <input
           type="text"
-          class="form-control"
           id="name"
           formControlName="name"
           minlength="5"
@@ -63,7 +61,6 @@
         <label for="description">Descripción</label>
         <input
           type="text"
-          class="form-control"
           id="description"
           formControlName="description"
           minlength="10"
@@ -89,13 +86,7 @@
 
       <div class="form-group col">
         <label for="logo">Logo</label>
-        <input
-          type="text"
-          class="form-control"
-          id="logo"
-          formControlName="logo"
-          required
-        />
+        <input type="text" id="logo" formControlName="logo" required />
         <div
           *ngIf="logo?.invalid && (logo?.dirty || logo?.touched)"
           [ngClass]="'error'"
@@ -111,12 +102,13 @@
       <div class="form-group col">
         <label for="date_release">Fecha Liberación</label>
         <input
-          type="text"
-          class="form-control"
+          type="date"
           id="date_release"
+          [min]="currentDate.toISOString().slice(0, 10)"
           formControlName="date_release"
           required
         />
+
         <div
           *ngIf="
             dateRelease?.invalid && (dateRelease?.dirty || dateRelease?.touched)
@@ -132,23 +124,11 @@
       <div class="form-group col">
         <label for="date_revision">Fecha Revisión</label>
         <input
-          type="text"
-          class="form-control"
+          type="date"
           id="date_revision"
           formControlName="date_revision"
           required
         />
-        <div
-          *ngIf="
-            dateRevision?.invalid &&
-            (dateRevision?.dirty || dateRevision?.touched)
-          "
-          [ngClass]="'error'"
-        >
-          <small *ngIf="dateRevision?.errors?.['required']">
-            Este campo es requerido!
-          </small>
-        </div>
       </div>
     </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,10 +15,12 @@ import { ProductsService } from './../../../shared/services/products.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnDestroy {
+export class ProductComponent implements OnInit, OnDestroy {
   private _takeUntil$ = new Subject<boolean>();
 
   productForm: FormGroup;
+
+  currentDate = new Date();
 
   constructor(
     private _productsService: ProductsService,
@@ -52,14 +54,31 @@ export class ProductComponent implements OnDestroy {
         ],
       ],
       logo: [null, [Validators.required]],
-      date_release: [null, [Validators.required]],
-      date_revision: [null, [Validators.required]],
+      date_release: [
+        this.currentDate.toISOString().slice(0, 10),
+        [Validators.required],
+      ],
+      date_revision: [this.currentDate, [Validators.required]],
     });
   }
 
   ngOnDestroy() {
     this._takeUntil$.next(false);
     this._takeUntil$.complete();
+  }
+
+  ngOnInit(): void {
+    this._updateDateRevison();
+  }
+
+  private _updateDateRevison() {
+    const oneYearLater = new Date(this.currentDate);
+    oneYearLater.setFullYear(this.currentDate.getFullYear() + 1);
+
+    this.productForm
+      .get('date_revision')
+      ?.setValue(oneYearLater.toISOString().slice(0, 10));
+    this.productForm.get('date_revision')?.disable();
   }
 
   get id() {

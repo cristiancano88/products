@@ -94,18 +94,15 @@ export class ProductComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.productForm.value);
-
     this._productsService
       .createProduct(this.productForm.value)
       .pipe(takeUntil(this.takeUntil$))
       .subscribe({
         next: (product: Product) => {
-          console.log(product);
           this._router.navigate(['/products']);
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
         },
       });
   }

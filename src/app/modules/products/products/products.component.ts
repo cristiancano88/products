@@ -7,8 +7,8 @@ import {
   startWith,
   takeUntil,
 } from 'rxjs';
-import { Product } from 'src/app/shared/models/product.mode';
-import { ProductsService } from 'src/app/shared/services/products.service';
+import { Product } from './../../../shared/models/product.mode';
+import { ProductsService } from './../../../shared/services/products.service';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +16,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-  private takeUntil$ = new Subject<boolean>();
+  private _takeUntil$ = new Subject<boolean>();
 
   private _initialProducts: Product[] = [];
 
@@ -27,8 +27,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private _productsService: ProductsService) {}
 
   ngOnDestroy() {
-    this.takeUntil$.next(false);
-    this.takeUntil$.complete();
+    this._takeUntil$.next(false);
+    this._takeUntil$.complete();
   }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         startWith(''),
         debounceTime(DEBOUNCE_TIME),
         distinctUntilChanged(),
-        takeUntil(this.takeUntil$)
+        takeUntil(this._takeUntil$)
       )
       .subscribe((criteria: any) => {
         this.products = [...this._initialProducts].filter(
@@ -59,7 +59,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private _getProducts(): void {
     this._productsService
       .getProducts()
-      .pipe(takeUntil(this.takeUntil$))
+      .pipe(takeUntil(this._takeUntil$))
       .subscribe((products: Product[]) => {
         this._initialProducts = products;
         this.products = products;
@@ -67,7 +67,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   onShowNElements(value: any): void {
-    console.log(value.target.value);
     if (!isNaN(Number(value.target.value))) {
       this.products = [...this._initialProducts].slice(
         0,

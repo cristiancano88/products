@@ -6,13 +6,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthHeaderInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
-
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler

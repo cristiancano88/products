@@ -59,6 +59,20 @@ describe('ProductComponent', () => {
   });
 
   describe('#onCreateProduct', () => {
+    it('should not create product if the form is invalid', () => {
+      jest.spyOn<any, string>(component['_router'], 'navigate');
+
+      component.productForm.get('id')?.setValue('11');
+      component.onCreateProduct();
+
+      expect(
+        component['_productsService'].createProduct
+      ).not.toHaveBeenCalledWith(productMock);
+      expect(component['_router'].navigate).not.toHaveBeenCalledWith([
+        '/products',
+      ]);
+    });
+
     it('should create product', () => {
       jest.spyOn<any, string>(component['_router'], 'navigate');
 
@@ -80,20 +94,6 @@ describe('ProductComponent', () => {
         productMock
       );
       expect(component['_router'].navigate).toHaveBeenCalledWith(['/products']);
-    });
-
-    it('should not create product if the form is invalid', () => {
-      jest.spyOn<any, string>(component['_router'], 'navigate');
-
-      component.productForm.get('id')?.setValue('11');
-      component.onCreateProduct();
-
-      expect(
-        component['_productsService'].createProduct
-      ).not.toHaveBeenCalledWith(productMock);
-      expect(component['_router'].navigate).not.toHaveBeenCalledWith([
-        '/products',
-      ]);
     });
   });
 });

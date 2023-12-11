@@ -2,6 +2,7 @@ import {
   AbstractControl,
   AsyncValidatorFn,
   ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
 import { ProductsService } from 'src/app/shared/services/products.service';
@@ -19,6 +20,19 @@ export class ProductValidator {
           .pipe(map((result: boolean) => (result ? { idExists: true } : null)));
       } else {
         return of(null);
+      }
+    };
+  }
+
+  static minDateValidator(minDate: Date): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const date = new Date(control.value);
+      const minimumDate = new Date(minDate.toISOString().slice(0, 10));
+
+      if (date.getTime() >= minimumDate.getTime()) {
+        return null;
+      } else {
+        return { min: { value: control.value, expected: minDate } };
       }
     };
   }

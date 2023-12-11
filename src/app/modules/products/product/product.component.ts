@@ -56,7 +56,10 @@ export class ProductComponent implements OnInit, OnDestroy {
       logo: [null, [Validators.required]],
       date_release: [
         this.currentDate.toISOString().slice(0, 10),
-        [Validators.required],
+        [
+          Validators.required,
+          ProductValidator.minDateValidator(this.currentDate),
+        ],
       ],
       date_revision: [this.currentDate, [Validators.required]],
     });
@@ -68,17 +71,29 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._updateDateRevison();
+    this._dateRelaseSubscriptions();
+    this._updateDateRevison(this.currentDate.toISOString().slice(0, 10));
+    this.productForm.get('date_revision')?.disable();
   }
 
-  private _updateDateRevison() {
-    const oneYearLater = new Date(this.currentDate);
+  private _dateRelaseSubscriptions(): void {
+    this.productForm
+      .get('date_release')
+      ?.valueChanges.pipe(takeUntil(this._takeUntil$))
+      .subscribe((date: string) => {
+        if (date) {
+          this._updateDateRevison(date);
+        }
+      });
+  }
+
+  private _updateDateRevison(date: string) {
+    const oneYearLater = new Date(date);
     oneYearLater.setFullYear(this.currentDate.getFullYear() + 1);
 
     this.productForm
       .get('date_revision')
       ?.setValue(oneYearLater.toISOString().slice(0, 10));
-    this.productForm.get('date_revision')?.disable();
   }
 
   get id() {
@@ -114,11 +129,15 @@ export class ProductComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.productForm.get('date_revision')?.enable();
+
     this._productsService
       .createProduct(this.productForm.value)
       .pipe(takeUntil(this._takeUntil$))
       .subscribe((product: Product) => {
         this._router.navigate(['/products']);
       });
+
+    this.productForm.get('date_revision')?.disable();
   }
 }

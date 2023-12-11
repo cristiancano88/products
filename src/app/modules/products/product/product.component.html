@@ -118,6 +118,9 @@
           <small *ngIf="dateRelease?.errors?.['required']">
             Este campo es requerido!
           </small>
+          <small *ngIf="dateRelease?.errors?.['min']">
+            Fecha de Liberación incorrecta!
+          </small>
         </div>
       </div>
 

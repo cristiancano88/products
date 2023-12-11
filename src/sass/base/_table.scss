@@ -1,0 +1,24 @@
+caption {
+  display: none;
+}
+
+table {
+  border-spacing: 0px;
+  margin-bottom: 25px;
+  width: 100%;
+
+  tr {
+    th {
+      text-align: left;
+      background-color: #f9fafc;
+    }
+
+    th,
+    td {
+      border: 1px solid #dee2e6;
+      border-width: 0 0 1px 0;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+}

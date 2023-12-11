@@ -8,10 +8,6 @@ describe('AuthHeaderInterceptor', () => {
   let request: any;
   let next: any;
 
-  const router = {
-    navigate: jest.fn(),
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

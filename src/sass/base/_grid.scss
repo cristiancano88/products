@@ -28,3 +28,10 @@ $base-unit: 8px;
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
+
+@media only screen and (max-width: 624px) {
+  .col-md {
+    flex: 100%;
+    max-width: 100%;
+  }
+}

@@ -2,6 +2,10 @@ caption {
   display: none;
 }
 
+.table-wrapper {
+  overflow-x: auto;
+}
+
 table {
   border-spacing: 0px;
   margin-bottom: 25px;
@@ -21,4 +25,8 @@ table {
       padding-bottom: 12px;
     }
   }
+}
+
+:is(th, td) {
+  min-inline-size: 10rem;
 }

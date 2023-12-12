@@ -5,7 +5,7 @@
 
   <form [formGroup]="productForm" (ngSubmit)="onCreateProduct()">
     <div class="grid mb-3">
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="id">ID</label>
         <input
           type="text"
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="name">Nombre</label>
         <input
           type="text"
@@ -57,7 +57,7 @@
     </div>
 
     <div class="grid mb-3">
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="description">Descripción</label>
         <input
           type="text"
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="logo">Logo</label>
         <input type="text" id="logo" formControlName="logo" required />
         <div
@@ -99,7 +99,7 @@
     </div>
 
     <div class="grid mb-3">
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="date_release">Fecha Liberación</label>
         <input
           type="date"
@@ -124,7 +124,7 @@
         </div>
       </div>
 
-      <div class="form-group col">
+      <div class="col col-md">
         <label for="date_revision">Fecha Revisión</label>
         <input
           type="date"

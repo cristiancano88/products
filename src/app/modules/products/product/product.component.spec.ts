@@ -46,6 +46,54 @@ describe('ProductComponent', () => {
     expect(component['_takeUntil$'].complete).toHaveBeenCalled();
   });
 
+  describe('#ngOnInit', () => {
+    it('should create the subscriptions for the dateRelease control', () => {
+      jest.spyOn<any, string>(component, '_dateRelaseSubscriptions');
+      jest
+        .spyOn<any, string>(component, '_updateDateRevison')
+        .mockImplementation(() => {});
+
+      component.ngOnInit();
+
+      expect(component['_dateRelaseSubscriptions']).toHaveBeenCalled();
+    });
+
+    it('should update the value and disable the dateRevision control', () => {
+      jest
+        .spyOn<any, string>(component, '_updateDateRevison')
+        .mockImplementation(() => {});
+
+      component.ngOnInit();
+
+      expect(component['_updateDateRevison']).toHaveBeenCalledWith(
+        component.currentDate.toISOString().slice(0, 10)
+      );
+      expect(component.productForm.get('date_revision')?.disabled).toBe(true);
+    });
+  });
+
+  it('should update #DateRevision when the dateRelease control changes', () => {
+    jest
+      .spyOn<any, string>(component, '_updateDateRevison')
+      .mockImplementation(() => {});
+
+    component['_dateRelaseSubscriptions']();
+    component.productForm.get('date_release')?.setValue('2021-01-01');
+
+    expect(component['_updateDateRevison']).toHaveBeenCalledWith('2021-01-01');
+  });
+
+  it('should update #DateRevision control with one more year', () => {
+    const currentDate = '2023-12-30';
+    const oneYearLater = '2024-12-30';
+
+    component['_updateDateRevison'](currentDate);
+
+    expect(component.productForm.get('date_revision')?.value).toBe(
+      oneYearLater
+    );
+  });
+
   it('should reset the form', () => {
     jest.spyOn<any, string>(component.productForm, 'reset');
 

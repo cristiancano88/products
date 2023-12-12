@@ -20,13 +20,13 @@ Run `npm run test:coverage` to execute the unit tests via [Jest](https://jestjs.
 
 ## Coverage summary
 
-Statements : 96.63% ( 115/119 )
+Statements : 97.43% ( 114/117 )
 
-Branches : 83.33% ( 10/12 )
+Branches : 81.81% ( 9/11 )
 
-Functions : 94.11% ( 32/34 )
+Functions : 96.96% ( 32/33 )
 
-Lines : 96.26% ( 103/107 )
+Lines :97.14% ( 102/105 )
 
 ## Further help
 

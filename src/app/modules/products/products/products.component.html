@@ -29,8 +29,8 @@
       </td>
       <td>{{ product.name }}</td>
       <td>{{ product.description }}</td>
-      <td>{{ product.date_release | date : "dd/LL/yyyy" }}</td>
-      <td>{{ product.date_revision | date : "dd/LL/yyyy" }}</td>
+      <td>{{ product.date_release | date : "dd/LL/yyyy" : "UTC" }}</td>
+      <td>{{ product.date_revision | date : "dd/LL/yyyy" : "UTC" }}</td>
     </tr>
   </table>
 

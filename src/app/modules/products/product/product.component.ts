@@ -81,13 +81,11 @@ export class ProductComponent implements OnInit, OnDestroy {
       .get('date_release')
       ?.valueChanges.pipe(takeUntil(this._takeUntil$))
       .subscribe((date: string) => {
-        if (date) {
-          this._updateDateRevison(date);
-        }
+        this._updateDateRevison(date);
       });
   }
 
-  private _updateDateRevison(date: string) {
+  private _updateDateRevison(date: string): void {
     const oneYearLater = new Date(date);
     oneYearLater.setFullYear(this.currentDate.getFullYear() + 1);
 
@@ -114,10 +112,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   get dateRelease() {
     return this.productForm.get('date_release');
-  }
-
-  get dateRevision() {
-    return this.productForm.get('date_revision');
   }
 
   resetForm(): void {

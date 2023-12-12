@@ -40,9 +40,13 @@ describe('ProductsComponent', () => {
     expect(component['_takeUntil$'].complete).toHaveBeenCalled();
   });
 
-  it('should get products from the beginning', () => {
+  it('should get products from the beginning and create subscriptions for search control', () => {
+    jest.spyOn<any, string>(component, '_searchProductByName');
     jest.spyOn<any, string>(component, '_getProducts');
+
     component.ngOnInit();
+
+    expect(component['_searchProductByName']).toHaveBeenCalled();
     expect(component['_getProducts']).toHaveBeenCalled();
   });
 
